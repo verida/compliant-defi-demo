@@ -95,15 +95,18 @@ export const VeridaProvider: React.FunctionComponent<VeridaProviderType> = (
       // TODO Handle these cases
       return;
     }
+    // eslint-disable-next-line no-console
     console.debug("Preparing KYC request");
+    // TODO remove console.log, debuging time to prepare message
     setWaitingKYCRequest(true);
 
     const messaging = await context.getMessaging();
 
-    void messaging.onMessage((message: string) => {
-      console.log("message received from Verida", message);
+    void messaging.onMessage(() => {
       setWaitingKYCRequest(false);
+
       // TODO check KYC VC
+
       setKYCChecked(true);
     });
 
@@ -122,7 +125,9 @@ export const VeridaProvider: React.FunctionComponent<VeridaProviderType> = (
       recipientContextName: "Verida: Vault",
       did: requestFromDID,
     });
+    // eslint-disable-next-line no-console
     console.debug("KYC request sent");
+    // TODO remove console.log, debuging time to prepare message
   }, [context, profile]);
 
   const resetKYC = useCallback(() => {

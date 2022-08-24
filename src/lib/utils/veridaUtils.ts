@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
   Network,
   EnvironmentType,
@@ -6,17 +7,37 @@ import {
 } from "@verida/client-ts";
 import { VaultAccount } from "@verida/account-web-vault";
 import { UserProfile } from "lib/types";
+import { initWalletConnect, DEFAULT_CHAIN_ID } from "./walletConnectUtils";
+import WalletConnect from "@walletconnect/client";
 
 const connect = async (
   contextName: string,
   environment: EnvironmentType,
   logoUrl?: string,
-  openUrl?: string
-): Promise<[context: Context, account: VaultAccount, profile: UserProfile]> => {
+  openUrl?: string,
+  walletConnectChainId = DEFAULT_CHAIN_ID
+): Promise<
+  [
+    context: Context,
+    account: VaultAccount,
+    profile: UserProfile,
+    walletConnectConnector: WalletConnect
+  ]
+> => {
+  const walletConnectConnector = await initWalletConnect();
+  // eslint-disable-next-line no-console
+  console.log(walletConnectConnector);
+
   const account = new VaultAccount({
     request: {
       logoUrl,
       openUrl,
+      // @ts-ignore
+      walletConnect: {
+        version: walletConnectConnector.version,
+        uri: walletConnectConnector.uri,
+        chainId: walletConnectChainId,
+      },
     },
   });
 
@@ -37,7 +58,7 @@ const connect = async (
   const did = await account.did();
   const profile = await getPublicProfileInfo(context, did);
 
-  return [context, account, profile];
+  return [context, account, profile, walletConnectConnector];
 };
 
 const disconnect = async (
