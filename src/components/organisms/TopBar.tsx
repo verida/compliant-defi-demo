@@ -19,7 +19,7 @@ export const TopBar: React.FunctionComponent = () => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const menuOpen = Boolean(anchorEl);
-  const { isConnected, profile, disconnect } = useVerida();
+  const { isConnected, profile, did, disconnect } = useVerida();
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -99,9 +99,9 @@ export const TopBar: React.FunctionComponent = () => {
               sx={{ p: 0 }}
             >
               <AvatarWithID
-                id={profile?.id}
+                id={did}
                 imageAlt={profile?.name}
-                imageSrc={profile?.avatar}
+                imageSrc={profile?.avatarUri}
               />
             </IconButton>
           )}

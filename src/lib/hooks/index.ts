@@ -1,1 +1,2 @@
-export * from "./veridaHooks";
+export * from "./useKyc";
+export * from "./useVerida";

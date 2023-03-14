@@ -1,5 +1,6 @@
 import React from "react";
 import { ThemesProvider } from "./ThemesContext";
+import { KycProvider } from "./KycContext";
 import { VeridaProvider } from "./VeridaContext";
 
 type Props = {
@@ -9,7 +10,9 @@ type Props = {
 export const AppContextProvider: React.FunctionComponent<Props> = (props) => {
   return (
     <VeridaProvider>
-      <ThemesProvider>{props.children}</ThemesProvider>
+      <KycProvider>
+        <ThemesProvider>{props.children}</ThemesProvider>
+      </KycProvider>
     </VeridaProvider>
   );
 };

@@ -3,11 +3,12 @@ import { SwapBox } from "components/organisms";
 import { Alert, Box, Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { routes } from "lib/constants";
-import { useVerida } from "lib/hooks";
+import { useKyc, useVerida } from "lib/hooks";
 
 export const HomeView: React.FunctionComponent = () => {
   const navigate = useNavigate();
-  const { isConnected, kycChecked } = useVerida();
+  const { isConnected } = useVerida();
+  const { kycChecked } = useKyc();
 
   const handleKYCAlertMoreClick = () => {
     navigate(routes.profile);

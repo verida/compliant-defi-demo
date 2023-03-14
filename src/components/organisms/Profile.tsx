@@ -11,27 +11,25 @@ import {
   DialogContent,
   DialogActions,
 } from "@mui/material";
-import { EnvironmentType } from "@verida/client-ts";
-import { useVerida } from "lib/hooks";
+import { EnvironmentType } from "@verida/types";
+import { useKyc, useVerida } from "lib/hooks";
 import { ConnectVeridaButton } from "components/atoms";
 import { config } from "config";
 
 export const Profile: React.FunctionComponent = () => {
-  const {
-    connect,
-    disconnect,
-    sendKYCRequest,
-    resetKYC,
-    profile,
-    isConnected,
-    isConnecting,
-    waitingKYCRequest,
-    kycChecked,
-  } = useVerida();
+  const { connect, disconnect, profile, isConnected, did } = useVerida();
+  const { kycChecked, isWaitingKYCRequest, sendKYCRequest, resetKYC } =
+    useKyc();
+  const [isConnecting, setIsConnecting] = useState(false);
   const [kycDialogOpen, setKYCDialogOpen] = useState(false);
 
   const handleConnect = async () => {
-    await connect();
+    setIsConnecting(true);
+    try {
+      await connect();
+    } finally {
+      setIsConnecting(false);
+    }
   };
 
   const handleDisconnect = async () => {
@@ -49,8 +47,8 @@ export const Profile: React.FunctionComponent = () => {
 
   const handlePerformKYCClick = () => {
     const url =
-      config.kycProviderFormURL && profile?.id
-        ? `${config.kycProviderFormURL}?veridaDID=${encodeURI(profile?.id)}`
+      config.kycProviderFormURL && did
+        ? `${config.kycProviderFormURL}?veridaDID=${encodeURI(did)}`
         : "https://finclusive.com/";
     window.open(url, "_blank");
     setKYCDialogOpen(false);
@@ -148,7 +146,7 @@ export const Profile: React.FunctionComponent = () => {
     >
       <Avatar
         alt={profile?.name}
-        src={profile?.avatar}
+        src={profile?.avatarUri}
         sx={{ width: 128, height: 128 }}
       ></Avatar>
       <Typography component="h3" variant="h5">
@@ -163,9 +161,9 @@ export const Profile: React.FunctionComponent = () => {
               {veridaMissingKYCAlert}
               <Button
                 onClick={() => void handleProvideKYCClick()}
-                disabled={waitingKYCRequest}
+                disabled={isWaitingKYCRequest}
               >
-                {waitingKYCRequest ? `Waiting for KYC...` : `Provide KYC`}
+                {isWaitingKYCRequest ? `Waiting for KYC...` : `Provide KYC`}
               </Button>
               <Dialog open={kycDialogOpen} onClose={closeKYCDialog}>
                 <DialogTitle>KYC Request</DialogTitle>
@@ -202,7 +200,7 @@ export const Profile: React.FunctionComponent = () => {
                 maxWidth: "100%",
               }}
             >
-              {profile?.id}
+              {did}
             </Typography>
           </Box>
 
