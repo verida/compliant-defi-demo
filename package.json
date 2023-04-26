@@ -1,7 +1,7 @@
 {
   "name": "compliant-defi-demo",
   "description": "Non functioning DeFi application to demonstrate Verifiable Credentials capabilities with KYC",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.9.3",
