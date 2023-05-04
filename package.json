@@ -1,7 +1,7 @@
 {
   "name": "compliant-defi-demo",
   "description": "Non functioning DeFi application to demonstrate Verifiable Credentials capabilities with KYC",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.9.3",
@@ -17,8 +17,8 @@
     "@types/react-dom": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "^5.31.0",
     "@typescript-eslint/parser": "^5.31.0",
-    "@verida/types": "^2.2.0",
-    "@verida/web-helpers": "^2.2.0",
+    "@verida/types": "^2.3.1",
+    "@verida/web-helpers": "^2.3.4",
     "crypto-browserify": "^3.12.0",
     "eslint": "^8.20.0",
     "eslint-config-prettier": "^8.5.0",
